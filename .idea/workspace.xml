@@ -4,7 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ee80cda7-48a8-41ac-baae-1b54b4176bd7" name="Changes" comment="1" />
+    <list default="true" id="ee80cda7-48a8-41ac-baae-1b54b4176bd7" name="Changes" comment="2">
+      <change afterPath="$PROJECT_DIR$/netlify.toml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -46,7 +50,7 @@
   &quot;keyToString&quot;: {
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;git-widget-placeholder&quot;: &quot;master&quot;,
-    &quot;last_opened_file_path&quot;: &quot;D:/tg-bot/tg-bot-app&quot;,
+    &quot;last_opened_file_path&quot;: &quot;D:/tg-bot/tg-bot-react/src&quot;,
     &quot;list.type.of.created.stylesheet&quot;: &quot;CSS&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
@@ -58,6 +62,11 @@
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\tg-bot\tg-bot-react\src" />
+    </key>
+  </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
@@ -75,7 +84,7 @@
       <updated>1756838977871</updated>
       <workItem from="1756838978946" duration="142000" />
       <workItem from="1758202543495" duration="1713000" />
-      <workItem from="1758204625168" duration="4826000" />
+      <workItem from="1758204625168" duration="6472000" />
     </task>
     <task id="LOCAL-00001" summary="add netlify">
       <option name="closed" value="true" />
@@ -109,7 +118,15 @@
       <option name="project" value="LOCAL" />
       <updated>1758214776285</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="2">
+      <option name="closed" value="true" />
+      <created>1758215342891</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1758215342891</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -118,6 +135,7 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="add netlify" />
     <MESSAGE value="1" />
-    <option name="LAST_COMMIT_MESSAGE" value="1" />
+    <MESSAGE value="2" />
+    <option name="LAST_COMMIT_MESSAGE" value="2" />
   </component>
 </project>
