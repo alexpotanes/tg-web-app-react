@@ -55,19 +55,20 @@ const Form = () => {
       <h3>Введите данные для подчсета суммы</h3>
       <input
         className="input"
-        type="text"
+        type="number"
         placeholder="Количество артикулов"
         value={articles}
         onChange={onChangeArticles}
       />
       <input
         className="input"
-        type="text"
+        type="number"
         placeholder="Количество фотографий"
         value={photo}
         onChange={onChangePhoto}
       />
       <textarea
+        className="input"
         name="Описание ТЗ"
         cols="30"
         rows="10"
