@@ -14,6 +14,7 @@ const Form = () => {
       photo,
       description
     }
+    console.log(data);
     tg.sendData(JSON.stringify(data));
   }, [articles, photo, description])
 
@@ -26,17 +27,10 @@ const Form = () => {
 
   useEffect(() => {
     tg.MainButton.setParams({
-      text: 'Отправить данные'
+      text: 'Отправить'
     })
+    tg.MainButton.show();
   }, [])
-
-  useEffect(() => {
-    if(!photo || !articles) {
-      tg.MainButton.hide();
-    } else {
-      tg.MainButton.show();
-    }
-  }, [articles, photo])
 
   const onChangeArticles = (e) => {
     setArticles(e.target.value)
