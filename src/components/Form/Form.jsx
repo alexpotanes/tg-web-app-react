@@ -5,18 +5,16 @@ import {useTelegram} from "../../hooks/useTelegram";
 const Form = () => {
   const [articles, setArticles] = useState('');
   const [photo, setPhoto] = useState('');
-  const [description, setDescription] = useState('');
   const {tg} = useTelegram();
 
   const onSendData = useCallback(() => {
     const data = {
       articles,
-      photo,
-      description
+      photo
     }
     console.log(data);
     tg.sendData(JSON.stringify(data));
-  }, [articles, photo, description])
+  }, [articles, photo])
 
   useEffect(() => {
     tg.onEvent('mainButtonClicked', onSendData)
@@ -40,10 +38,6 @@ const Form = () => {
     setPhoto(e.target.value)
   }
 
-  const onChangeDescription = (e) => {
-    setDescription(e.target.value)
-  }
-
   return (
     <div className={"form"}>
       <h3>Введите данные для подчсета суммы</h3>
@@ -61,16 +55,6 @@ const Form = () => {
         value={photo}
         onChange={onChangePhoto}
       />
-      <textarea
-        className="input"
-        name="Описание ТЗ"
-        cols="30"
-        rows="10"
-        placeholder="Описание ТЗ"
-        onChange={onChangeDescription}
-        value={description}
-      >
-      </textarea>
     </div>
   );
 };
