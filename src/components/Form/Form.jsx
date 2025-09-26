@@ -14,13 +14,14 @@ const Form = () => {
       queryId,
     }
 
-    fetch('https://tg-web-app-kyz.netlify.app:8000/web-data', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(data)
-    })
+    tg.sendData(JSON.stringify(data));
+    // fetch('https://tg-web-app-kyz.netlify.app:8000/web-data', {
+    //   method: 'POST',
+    //   headers: {
+    //     'Content-Type': 'application/json'
+    //   },
+    //   body: JSON.stringify(data)
+    // })
   }, [articles, photo])
 
   useEffect(() => {

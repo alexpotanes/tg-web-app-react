@@ -5,6 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ee80cda7-48a8-41ac-baae-1b54b4176bd7" name="Changes" comment="7">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/Form/Form.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Form/Form.jsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -85,7 +86,7 @@
       <workItem from="1758202543495" duration="1713000" />
       <workItem from="1758204625168" duration="12168000" />
       <workItem from="1758826297557" duration="693000" />
-      <workItem from="1758831821662" duration="5244000" />
+      <workItem from="1758831821662" duration="6302000" />
     </task>
     <task id="LOCAL-00001" summary="add netlify">
       <option name="closed" value="true" />
@@ -167,7 +168,15 @@
       <option name="project" value="LOCAL" />
       <updated>1758887408997</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="7">
+      <option name="closed" value="true" />
+      <created>1758887561325</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1758887561325</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
