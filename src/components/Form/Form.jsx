@@ -14,7 +14,7 @@ const Form = () => {
       queryId,
     }
 
-    fetch('https://tg-web-app-kyz.netlify.app/web-data', {
+    fetch('https://tg-web-app-kyz.netlify.app:8000/web-data', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
