@@ -5,15 +5,22 @@ import {useTelegram} from "../../hooks/useTelegram";
 const Form = () => {
   const [articles, setArticles] = useState('');
   const [photo, setPhoto] = useState('');
-  const {tg} = useTelegram();
+  const {tg, queryId} = useTelegram();
 
   const onSendData = useCallback(() => {
     const data = {
       articles,
-      photo
+      photo,
+      queryId,
     }
-    console.log(data);
-    tg.sendData(JSON.stringify(data));
+
+    fetch('https://tg-web-app-kyz.netlify.app/web-data', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data)
+    })
   }, [articles, photo])
 
   useEffect(() => {
@@ -51,7 +58,7 @@ const Form = () => {
       <input
         className="input"
         type="number"
-        placeholder="Количество фотографий"
+        placeholder="Количество фотографий в артикуле"
         value={photo}
         onChange={onChangePhoto}
       />
