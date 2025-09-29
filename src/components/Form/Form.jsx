@@ -39,19 +39,7 @@ const Form = () => {
     //   },
     //   body: JSON.stringify(data)
     // })
-  }, [
-    articles,
-    photo,
-    fashion,
-    product,
-    references,
-    hair,
-    race,
-    productImg,
-    queryId,
-    acceptResult,
-    acceptQuantity
-  ]);
+  }, [articles, photo, fashion, product, references, hair, race, productImg, queryId, acceptResult, acceptQuantity, tg]);
 
   useEffect(() => {
     tg.onEvent('mainButtonClicked', onSendData)
@@ -67,10 +55,10 @@ const Form = () => {
   }, []);
 
   useEffect(() => {
-    if (articles && photo && acceptResult && acceptQuantity) {
-      tg.MainButton.show();
-    } else {
+    if (!articles || !photo || !acceptResult || !acceptQuantity) {
       tg.MainButton.hide();
+    } else {
+      tg.MainButton.show();
     }
   }, [articles, photo, acceptResult, acceptQuantity])
 
@@ -106,11 +94,11 @@ const Form = () => {
     setProductImg(e.target.value)
   }
 
-  const onChangeAcceptResult = (e) => {
+  const onChangeAcceptResult = () => {
     setAcceptResult(!acceptResult)
   }
 
-  const onChangeAcceptQuantity = (e) => {
+  const onChangeAcceptQuantity = () => {
     setAcceptQuantity(!acceptQuantity)
   }
 
