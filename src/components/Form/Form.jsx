@@ -39,7 +39,19 @@ const Form = () => {
     //   },
     //   body: JSON.stringify(data)
     // })
-  }, [articles, photo])
+  }, [
+    articles,
+    photo,
+    fashion,
+    product,
+    references,
+    hair,
+    race,
+    productImg,
+    queryId,
+    acceptResult,
+    acceptQuantity
+  ]);
 
   useEffect(() => {
     tg.onEvent('mainButtonClicked', onSendData)
