@@ -5,10 +5,45 @@
     padding: 20px;
 }
 
+.label {
+    margin-top: 15px;
+    font-size: 18px;
+}
+
+.label p {
+    margin-bottom: 5px;
+}
+
+.checkbox {
+    width: 0;
+    position: relative;
+}
+
+.checkbox:before {
+    content: '';
+    position: absolute;
+    top: -3px;
+    right: -30px;
+    width: 18px;
+    height: 18px;
+    border: 1px solid #ddd;
+    border-radius: 2px;
+}
+
+.checkbox:checked::before,
+.checkbox:checked::before {
+    width: 18px;
+    height: 18px;
+    background-color: blue;
+    background-image: url("./check.svg");
+    background-position: center;
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
 .input {
     width: 100%;
     padding: 10px;
-    margin-top: 15px;
     font-size: 18px;
     border: 1px solid #ddd;
     border-radius: 4px;
