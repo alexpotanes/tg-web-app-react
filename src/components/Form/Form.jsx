@@ -3,6 +3,7 @@ import './Form.css';
 import {useTelegram} from "../../hooks/useTelegram";
 
 const Form = () => {
+  const [email, setEmail] = useState(''); // Кол-во артикулов
   const [articles, setArticles] = useState(''); // Кол-во артикулов
   const [photo, setPhoto] = useState(''); // Кол-во фото
   const [fashion, setFashion] = useState(''); // Есть ли пожелания по фону или образу?
@@ -18,6 +19,7 @@ const Form = () => {
 
   const onSendData = useCallback(() => {
     const data = {
+      email,
       articles,
       photo,
       fashion,
@@ -39,7 +41,7 @@ const Form = () => {
     //   },
     //   body: JSON.stringify(data)
     // })
-  }, [articles, photo, fashion, product, references, hair, race, productImg, queryId, acceptResult, acceptQuantity, tg]);
+  }, [email, articles, photo, fashion, product, references, hair, race, productImg, queryId, acceptResult, acceptQuantity, tg]);
 
   useEffect(() => {
     tg.onEvent('mainButtonClicked', onSendData)
@@ -61,6 +63,10 @@ const Form = () => {
       tg.MainButton.show();
     }
   }, [articles, photo, acceptResult, acceptQuantity])
+
+  const onChangeEmail = (e) => {
+    setEmail(e.target.value)
+  }
 
   const onChangeArticles = (e) => {
     setArticles(e.target.value)
@@ -106,6 +112,17 @@ const Form = () => {
   return (
     <div className={"form"}>
       <h3>Введите данные для подчсета суммы</h3>
+      <label className="label">
+        <p>Ваш Емайл (куда придет фискальный чек)</p>
+        <input
+          className="input"
+          type="string"
+          placeholder="email"
+          value={email}
+          onChange={onChangeEmail}
+          required
+        />
+      </label>
       <label className="label">
         <p>Количество артикулов</p>
         <input
@@ -238,3 +255,5 @@ const Form = () => {
 };
 
 export default Form;
+
+

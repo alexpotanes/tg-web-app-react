@@ -4,7 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ee80cda7-48a8-41ac-baae-1b54b4176bd7" name="Changes" comment="12" />
+    <list default="true" id="ee80cda7-48a8-41ac-baae-1b54b4176bd7" name="Changes" comment="13">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Form/Form.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Form/Form.jsx" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -85,7 +88,8 @@
       <workItem from="1758826297557" duration="693000" />
       <workItem from="1758831821662" duration="6916000" />
       <workItem from="1759082817150" duration="2617000" />
-      <workItem from="1759151023363" duration="7528000" />
+      <workItem from="1759151023363" duration="11939000" />
+      <workItem from="1759338071221" duration="7637000" />
     </task>
     <task id="LOCAL-00001" summary="add netlify">
       <option name="closed" value="true" />
@@ -215,7 +219,15 @@
       <option name="project" value="LOCAL" />
       <updated>1759163892176</updated>
     </task>
-    <option name="localTasksCounter" value="17" />
+    <task id="LOCAL-00017" summary="13">
+      <option name="closed" value="true" />
+      <created>1759164176120</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1759164176120</updated>
+    </task>
+    <option name="localTasksCounter" value="18" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -235,6 +247,7 @@
     <MESSAGE value="10" />
     <MESSAGE value="11" />
     <MESSAGE value="12" />
-    <option name="LAST_COMMIT_MESSAGE" value="12" />
+    <MESSAGE value="13" />
+    <option name="LAST_COMMIT_MESSAGE" value="13" />
   </component>
 </project>
