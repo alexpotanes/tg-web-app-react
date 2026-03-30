@@ -1,55 +1,249 @@
+/* ─── Layout ─────────────────────────────────────────── */
+
 .form {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    padding: 20px;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding: 16px;
+  gap: 12px;
 }
 
+/* ─── Header ─────────────────────────────────────────── */
+
+.form-header {
+  padding: 16px 0 8px;
+  border-bottom: 2px solid var(--tg-theme-button-color, #2481cc);
+  margin-bottom: 4px;
+}
+
+.form-header h3 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--tg-theme-text-color, #111);
+}
+
+.form-subtitle {
+  font-size: 13px;
+  color: var(--tg-theme-hint-color, #888);
+  margin-top: 4px;
+}
+
+/* ─── Sections ───────────────────────────────────────── */
+
+.form-section {
+  background: var(--tg-theme-secondary-bg-color, #f7f7f7);
+  border-radius: 14px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+}
+
+.form-section--confirm {
+  background: color-mix(in srgb, var(--tg-theme-button-color, #2481cc) 6%, var(--tg-theme-secondary-bg-color, #f7f7f7));
+  border: 1px solid color-mix(in srgb, var(--tg-theme-button-color, #2481cc) 20%, transparent);
+}
+
+.section-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--tg-theme-text-color, #111);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.section-num {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  background: var(--tg-theme-button-color, #2481cc);
+  color: var(--tg-theme-button-text-color, #fff);
+  border-radius: 50%;
+  font-size: 12px;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+/* ─── Fields ─────────────────────────────────────────── */
+
 .label {
-    margin-top: 15px;
-    font-size: 18px;
+  display: flex;
+  flex-direction: column;
+  font-size: 14px;
+  gap: 6px;
 }
 
 .label p {
-    margin-bottom: 5px;
+  font-weight: 600;
+  color: var(--tg-theme-text-color, #333);
+  line-height: 1.3;
+}
+
+.hint {
+  font-weight: 400;
+  color: var(--tg-theme-hint-color, #999);
+  font-size: 12px;
+}
+
+.required {
+  color: #e74c3c;
+}
+
+/* Two columns for number inputs */
+.row-fields {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+/* ─── Inputs ─────────────────────────────────────────── */
+
+.input {
+  width: 100%;
+  padding: 10px 13px;
+  font-size: 16px;
+  border: 1.5px solid transparent;
+  border-radius: 10px;
+  background: var(--tg-theme-bg-color, #ffffff);
+  color: var(--tg-theme-text-color, #222);
+  outline: none;
+  resize: vertical;
+  min-height: 44px;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.08);
+}
+
+.input::placeholder {
+  color: var(--tg-theme-hint-color, #bbb);
+  font-size: 14px;
+}
+
+.input:focus {
+  border-color: var(--tg-theme-button-color, #2481cc);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--tg-theme-button-color, #2481cc) 15%, transparent);
+}
+
+textarea.input {
+  min-height: 90px;
+  line-height: 1.55;
+}
+
+/* ─── Checkboxes ─────────────────────────────────────── */
+
+.label--checkbox {
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 12px;
+  background: var(--tg-theme-bg-color, #fff);
+  border-radius: 10px;
+  padding: 12px;
+  cursor: pointer;
+  border: 1.5px solid transparent;
+  transition: border-color 0.2s;
+}
+
+.label--checkbox:has(.checkbox:checked) {
+  border-color: var(--tg-theme-button-color, #2481cc);
+}
+
+.label--checkbox span {
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--tg-theme-text-color, #333);
 }
 
 .checkbox {
-    width: 0;
-    position: relative;
+  width: 20px;
+  height: 20px;
+  min-width: 20px;
+  cursor: pointer;
+  accent-color: var(--tg-theme-button-color, #2481cc);
+  margin-top: 1px;
 }
 
-.checkbox:before {
-    content: '';
-    position: absolute;
-    top: -3px;
-    right: -30px;
-    width: 18px;
-    height: 18px;
-    border: 1px solid #ddd;
-    border-radius: 2px;
+/* ─── Submit button ──────────────────────────────────── */
+
+.submit-btn {
+  margin-top: 4px;
+  margin-bottom: 8px;
+  width: 100%;
+  padding: 15px;
+  font-size: 16px;
+  font-weight: 700;
+  border-radius: 12px;
+  letter-spacing: 0.3px;
+  transition: transform 0.15s, box-shadow 0.15s, opacity 0.15s;
+  box-shadow: 0 4px 12px color-mix(in srgb, var(--tg-theme-button-color, #2481cc) 35%, transparent);
 }
 
-.checkbox:checked::before,
-.checkbox:checked::before {
-    width: 18px;
-    height: 18px;
-    background-color: blue;
-    background-image: url("./check.svg");
-    background-position: center;
-    background-size: contain;
-    background-repeat: no-repeat;
+.submit-btn:not(:disabled):active {
+  transform: scale(0.97);
+  box-shadow: none;
 }
 
-.input {
-    width: 100%;
-    padding: 10px;
-    font-size: 18px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
+.submit-btn--disabled {
+  box-shadow: none;
 }
 
-.select {
-    padding: 10px;
-    margin-top: 15px;
+/* ─── Hint below form ────────────────────────────────── */
+
+.form-hint {
+  text-align: center;
+  font-size: 12px;
+  color: var(--tg-theme-hint-color, #aaa);
+  margin-top: -4px;
+  margin-bottom: 8px;
+}
+
+/* ─── Success screen ─────────────────────────────────── */
+
+.form--success {
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 60px 24px;
+  gap: 14px;
+  min-height: 60vh;
+}
+
+.success-icon {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: var(--tg-theme-button-color, #2481cc);
+  color: var(--tg-theme-button-text-color, #fff);
+  font-size: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 6px 20px color-mix(in srgb, var(--tg-theme-button-color, #2481cc) 40%, transparent);
+}
+
+.form--success h3 {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--tg-theme-text-color, #111);
+}
+
+.form--success p {
+  font-size: 0.95rem;
+  color: var(--tg-theme-hint-color, #888);
+}
+
+/* ─── Responsive ─────────────────────────────────────── */
+
+@media (min-width: 480px) {
+  .form {
+    padding: 20px 24px;
+  }
+
+  .label {
+    font-size: 15px;
+  }
 }

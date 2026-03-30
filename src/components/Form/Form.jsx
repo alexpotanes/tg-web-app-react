@@ -1,259 +1,255 @@
 import React, {useCallback, useEffect, useState} from 'react';
 import './Form.css';
 import {useTelegram} from "../../hooks/useTelegram";
+import {useVK} from "../../hooks/useVK";
+import Button from "../Button/Button";
 
 const Form = () => {
-  const [email, setEmail] = useState(''); // Кол-во артикулов
-  const [articles, setArticles] = useState(''); // Кол-во артикулов
-  const [photo, setPhoto] = useState(''); // Кол-во фото
-  const [fashion, setFashion] = useState(''); // Есть ли пожелания по фону или образу?
-  const [product, setProduct] = useState(''); // Какой товар?
-  const [references, setReferences] = useState(''); // Если есть ссылки на референсы - прикрепите.
-  const [hair, setHair] = useState(''); // волосы модели
-  const [race, setRace] = useState(''); // расса модели
-  const [productImg, setProductImg] = useState(''); // Фото товара
+  const [email, setEmail] = useState('');
+  const [articles, setArticles] = useState('');
+  const [photo, setPhoto] = useState('');
+  const [fashion, setFashion] = useState('');
+  const [product, setProduct] = useState('');
+  const [references, setReferences] = useState('');
+  const [hair, setHair] = useState('');
+  const [race, setRace] = useState('');
+  const [productImg, setProductImg] = useState('');
   const [acceptResult, setAcceptResult] = useState(false);
   const [acceptQuantity, setAcceptQuantity] = useState(false);
+  const [sent, setSent] = useState(false);
 
   const {tg, queryId} = useTelegram();
+  const {sendData: vkSendData, isVK} = useVK();
 
-  const onSendData = useCallback(() => {
+  const isFormValid = articles && photo && acceptResult && acceptQuantity;
+
+  const onSendData = useCallback(async () => {
     const data = {
-      email,
-      articles,
-      photo,
-      fashion,
-      product,
-      references,
-      hair,
-      race,
-      productImg,
-      queryId,
-      acceptResult,
-      acceptQuantity
-    }
+      email, articles, photo, fashion, product,
+      references, hair, race, productImg, queryId,
+      acceptResult, acceptQuantity,
+    };
 
-    tg.sendData(JSON.stringify(data));
-    // fetch('https://tg-web-app-kyz.netlify.app:8000/web-data', {
-    //   method: 'POST',
-    //   headers: {
-    //     'Content-Type': 'application/json'
-    //   },
-    //   body: JSON.stringify(data)
-    // })
-  }, [email, articles, photo, fashion, product, references, hair, race, productImg, queryId, acceptResult, acceptQuantity, tg]);
+    if (isVK) {
+      await vkSendData(data);
+      setSent(true);
+    } else {
+      tg.sendData(JSON.stringify(data));
+    }
+  }, [email, articles, photo, fashion, product, references, hair, race, productImg, queryId, acceptResult, acceptQuantity, tg, isVK, vkSendData]);
 
   useEffect(() => {
-    tg.onEvent('mainButtonClicked', onSendData)
-    return () => {
-      tg.offEvent('mainButtonClicked', onSendData)
-    }
+    tg.onEvent('mainButtonClicked', onSendData);
+    return () => { tg.offEvent('mainButtonClicked', onSendData); };
   }, [onSendData]);
 
   useEffect(() => {
-    tg.MainButton.setParams({
-      text: 'Отправить'
-    })
+    tg.MainButton.setParams({ text: 'Отправить' });
   }, []);
 
   useEffect(() => {
-    if (!articles || !photo || !acceptResult || !acceptQuantity) {
-      tg.MainButton.hide();
-    } else {
-      tg.MainButton.show();
-    }
-  }, [articles, photo, acceptResult, acceptQuantity])
+    if (!isFormValid) { tg.MainButton.hide(); }
+    else { tg.MainButton.show(); }
+  }, [isFormValid]);
 
-  const onChangeEmail = (e) => {
-    setEmail(e.target.value)
+  if (sent) {
+    return (
+      <div className="form form--success">
+        <div className="success-icon">✓</div>
+        <h3>Данные отправлены!</h3>
+        <p>Ожидайте ответа бота в VK.</p>
+      </div>
+    );
   }
-
-  const onChangeArticles = (e) => {
-    setArticles(e.target.value)
-  }
-
-  const onChangePhoto = (e) => {
-    setPhoto(e.target.value)
-  }
-
-  const onChangeFashion = (e) => {
-    setFashion(e.target.value)
-  }
-
-  const onChangeProduct = (e) => {
-    setProduct(e.target.value)
-  }
-
-  const onChangeReferences = (e) => {
-    setReferences(e.target.value)
-  }
-
-  const onChangeHair = (e) => {
-    setHair(e.target.value)
-  }
-
-  const onChangeRace = (e) => {
-    setRace(e.target.value)
-  }
-
-  const onChangeProductImg = (e) => {
-    setProductImg(e.target.value)
-  }
-
-  const onChangeAcceptResult = () => {
-    setAcceptResult(!acceptResult)
-  }
-
-  const onChangeAcceptQuantity = () => {
-    setAcceptQuantity(!acceptQuantity)
-  }
-
 
   return (
-    <div className={"form"}>
-      <h3>Введите данные для подчсета суммы</h3>
-      <label className="label">
-        <p>Ваш Емайл (куда придет фискальный чек)</p>
-        <input
-          className="input"
-          type="string"
-          placeholder="email"
-          value={email}
-          onChange={onChangeEmail}
-          required
-        />
-      </label>
-      <label className="label">
-        <p>Количество артикулов</p>
-        <input
-          className="input"
-          type="number"
-          placeholder="Количество артикулов"
-          value={articles}
-          onChange={onChangeArticles}
-          required
-        />
-      </label>
-      <label className="label">
-        <p>Количество фотографий в артикуле</p>
-        <input
-          className="input"
-          type="number"
-          placeholder="Количество фотографий в артикуле"
-          value={photo}
-          onChange={onChangePhoto}
-          required
-        />
-      </label>
-      <label className="label">
-        <p>Есть ли пожелания по фону или образу?</p>
-        <textarea
-          className="input"
-          rows="5"
-          cols="10"
-          placeholder="Опишите пожелания по фону и образу для каждого артикула в виде:
-          1. Пожелания для первого артикула,
-          2. Пожелания для вторго артикула"
-          value={fashion}
-          onChange={onChangeFashion}
-          required
-        />
-      </label>
-      <label className="label">
-        <p>Какой товар?</p>
-        <textarea
-          className="input"
-          rows="5"
-          cols="10"
-          placeholder="Опишите товар по каждому артикулу в виде:
-          1. Описание для первого артикула,
-          2. Описание для вторго артикула"
-          value={product}
-          onChange={onChangeProduct}
-          required
-        />
-      </label>
-      <label className="label">
-        <p>Если есть ссылки на референсы - прикрепите.</p>
-        <textarea
-          className="input"
-          rows="5"
-          cols="10"
-          placeholder="Перечислите ссылки на референсы по каждому артикулу в виде:
-          1. ссылка на фото референса для первого артикула, ссылка на фото референса для первого артикула
-          2. ссылка на фото референса для вторго артикула"
-          value={references}
-          onChange={onChangeReferences}
-        />
-      </label>
-      <label className="label">
-        <p>Волосы модели</p>
-        <textarea
-          className="input"
-          rows="5"
-          cols="10"
-          placeholder="Перечислите волосы моделии по каждому артикулу в виде:
-          1. Волосы модели для первого артикула,
-          2. Волосы модели для вторго артикула"
-          value={hair}
-          onChange={onChangeHair}
-          required
-        />
-      </label>
-      <label className="label">
-        <p>Расса модели</p>
-        <textarea
-          className="input"
-          rows="5"
-          cols="10"
-          placeholder="Перечислите рассу модели по каждому артикулу в виде:
-          1. Расса модели для первого артикула,
-          2. Расса модели для вторго артикула"
-          value={race}
-          onChange={onChangeRace}
-          required
-        />
-      </label>
-      <label className="label">
-        <p>Ссылка на фото товара или сам товар</p>
-        <textarea
-          className="input"
-          rows="5"
-          cols="10"
-          placeholder="Перечислите примеры фото по каждому артикулу в виде:
-          1. ссылка на фото для первого артикула, ссылка на фото для первого артикула
-          2. ссылка на фото для вторго артикула"
-          value={productImg}
-          onChange={onChangeProductImg}
-        />
-      </label>
+    <div className="form">
+      <div className="form-header">
+        <h3>Заявка на фотосъёмку</h3>
+        <p className="form-subtitle">Заполните форму для расчёта стоимости</p>
+      </div>
 
-      <label className="label">
-        <span>Я подтверждаю что мои фото сделаны качественно, текстуру видно хорошо, фон однородный.  Чем лучше исходник - тем точнее результат.</span>
-        <input
-          className="checkbox"
-          type="checkbox"
-          checked={acceptResult}
-          onChange={onChangeAcceptResult}
-          name="acceptResult"
-          required
-        />
-      </label>
-      <label className="label">
-        <span>Я осведомлен с тем, что фото и артикулы с большим кол-вом деталей, сложными принтами- не будут переданы в точности.</span>
-        <input
-          className="checkbox"
-          type="checkbox"
-          checked={acceptQuantity}
-          onChange={onChangeAcceptQuantity}
-          name="acceptQuantity"
-          required
-        />
-      </label>
+      {/* Секция 1 */}
+      <div className="form-section">
+        <h4 className="section-title">
+          <span className="section-num">1</span>
+          Основная информация
+        </h4>
+
+        <label className="label">
+          <p>Email <span className="hint">(для фискального чека)</span></p>
+          <input
+            className="input"
+            type="email"
+            placeholder="example@mail.ru"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+        </label>
+
+        <div className="row-fields">
+          <label className="label">
+            <p>Артикулов <span className="required">*</span></p>
+            <input
+              className="input"
+              type="number"
+              min="1"
+              placeholder="0"
+              value={articles}
+              onChange={(e) => setArticles(e.target.value)}
+              required
+            />
+          </label>
+          <label className="label">
+            <p>Фото на артикул <span className="required">*</span></p>
+            <input
+              className="input"
+              type="number"
+              min="1"
+              placeholder="0"
+              value={photo}
+              onChange={(e) => setPhoto(e.target.value)}
+              required
+            />
+          </label>
+        </div>
+      </div>
+
+      {/* Секция 2 */}
+      <div className="form-section">
+        <h4 className="section-title">
+          <span className="section-num">2</span>
+          Детали заказа
+        </h4>
+
+        <label className="label">
+          <p>Пожелания по фону и образу</p>
+          <textarea
+            className="input"
+            rows="4"
+            placeholder={"1. Пожелания для первого артикула\n2. Пожелания для второго артикула"}
+            value={fashion}
+            onChange={(e) => setFashion(e.target.value)}
+          />
+        </label>
+
+        <label className="label">
+          <p>Описание товара</p>
+          <textarea
+            className="input"
+            rows="4"
+            placeholder={"1. Описание первого артикула\n2. Описание второго артикула"}
+            value={product}
+            onChange={(e) => setProduct(e.target.value)}
+          />
+        </label>
+
+        <label className="label">
+          <p>Ссылки на референсы</p>
+          <textarea
+            className="input"
+            rows="3"
+            placeholder={"1. Ссылки для первого артикула\n2. Ссылки для второго артикула"}
+            value={references}
+            onChange={(e) => setReferences(e.target.value)}
+          />
+        </label>
+      </div>
+
+      {/* Секция 3 */}
+      <div className="form-section">
+        <h4 className="section-title">
+          <span className="section-num">3</span>
+          Характеристики модели
+        </h4>
+
+        <label className="label">
+          <p>Волосы модели</p>
+          <textarea
+            className="input"
+            rows="3"
+            placeholder={"1. Тип волос для первого артикула\n2. Тип волос для второго артикула"}
+            value={hair}
+            onChange={(e) => setHair(e.target.value)}
+          />
+        </label>
+
+        <label className="label">
+          <p>Раса модели</p>
+          <textarea
+            className="input"
+            rows="3"
+            placeholder={"1. Раса модели для первого артикула\n2. Раса модели для второго артикула"}
+            value={race}
+            onChange={(e) => setRace(e.target.value)}
+          />
+        </label>
+
+        <label className="label">
+          <p>Фото товара или ссылки на него</p>
+          <textarea
+            className="input"
+            rows="3"
+            placeholder={"1. Ссылки для первого артикула\n2. Ссылки для второго артикула"}
+            value={productImg}
+            onChange={(e) => setProductImg(e.target.value)}
+          />
+        </label>
+      </div>
+
+      {/* Секция 4 — подтверждения */}
+      <div className="form-section form-section--confirm">
+        <h4 className="section-title">
+          <span className="section-num">4</span>
+          Подтверждение
+        </h4>
+
+        <label className="label label--checkbox">
+          <input
+            className="checkbox"
+            type="checkbox"
+            checked={acceptResult}
+            onChange={() => setAcceptResult(!acceptResult)}
+          />
+          <span>
+            Мои фото сделаны качественно: текстура видна, фон однородный.
+            Чем лучше исходник — тем точнее результат.
+            <span className="required"> *</span>
+          </span>
+        </label>
+
+        <label className="label label--checkbox">
+          <input
+            className="checkbox"
+            type="checkbox"
+            checked={acceptQuantity}
+            onChange={() => setAcceptQuantity(!acceptQuantity)}
+          />
+          <span>
+            Понимаю, что артикулы со сложными деталями и принтами
+            не будут переданы в точности.
+            <span className="required"> *</span>
+          </span>
+        </label>
+      </div>
+
+      {isVK && (
+        <Button
+          className={'submit-btn' + (!isFormValid ? ' submit-btn--disabled' : '')}
+          onClick={onSendData}
+          disabled={!isFormValid}
+        >
+          Отправить заявку
+        </Button>
+      )}
+
+      {!isFormValid && (
+        <p className="form-hint">
+          Заполните обязательные поля <span className="required">*</span>
+        </p>
+      )}
     </div>
   );
 };
 
 export default Form;
-
-
