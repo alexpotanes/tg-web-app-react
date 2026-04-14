@@ -193,6 +193,16 @@ textarea.input {
 
 /* ─── Hint below form ────────────────────────────────── */
 
+.form-error {
+  text-align: center;
+  font-size: 13px;
+  color: #e53935;
+  margin-top: -4px;
+  padding: 8px 12px;
+  background: rgba(229, 57, 53, 0.08);
+  border-radius: 8px;
+}
+
 .form-hint {
   text-align: center;
   font-size: 12px;

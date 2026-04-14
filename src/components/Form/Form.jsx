@@ -17,9 +17,11 @@ const Form = () => {
   const [acceptResult, setAcceptResult] = useState(false);
   const [acceptQuantity, setAcceptQuantity] = useState(false);
   const [sent, setSent] = useState(false);
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
 
   const {tg, queryId} = useTelegram();
-  const {sendData: vkSendData, isVK} = useVK();
+  const {sendData: vkSendData, isVK, close: vkClose} = useVK();
 
   const isFormValid = articles && photo && acceptResult && acceptQuantity;
 
@@ -31,26 +33,37 @@ const Form = () => {
     };
 
     if (isVK) {
-      await vkSendData(data);
-      setSent(true);
+      setLoading(true);
+      setError('');
+      try {
+        await vkSendData(data);
+        setSent(true);
+      } catch (e) {
+        setError(e.message || 'Ошибка при отправке. Попробуйте ещё раз.');
+      } finally {
+        setLoading(false);
+      }
     } else {
       tg.sendData(JSON.stringify(data));
     }
   }, [email, articles, photo, fashion, product, references, hair, race, productImg, queryId, acceptResult, acceptQuantity, tg, isVK, vkSendData]);
 
   useEffect(() => {
+    if (isVK) return;
     tg.onEvent('mainButtonClicked', onSendData);
     return () => { tg.offEvent('mainButtonClicked', onSendData); };
-  }, [onSendData]);
+  }, [onSendData, isVK]);
 
   useEffect(() => {
+    if (isVK) return;
     tg.MainButton.setParams({ text: 'Отправить' });
-  }, []);
+  }, [isVK]);
 
   useEffect(() => {
+    if (isVK) return;
     if (!isFormValid) { tg.MainButton.hide(); }
     else { tg.MainButton.show(); }
-  }, [isFormValid]);
+  }, [isFormValid, isVK]);
 
   if (sent) {
     return (
@@ -58,6 +71,9 @@ const Form = () => {
         <div className="success-icon">✓</div>
         <h3>Данные отправлены!</h3>
         <p>Ожидайте ответа бота в VK.</p>
+        {isVK && (
+          <Button onClick={vkClose}>Вернуться в VK</Button>
+        )}
       </div>
     );
   }
@@ -233,13 +249,15 @@ const Form = () => {
         </label>
       </div>
 
+      {error && <p className="form-error">{error}</p>}
+
       {isVK && (
         <Button
-          className={'submit-btn' + (!isFormValid ? ' submit-btn--disabled' : '')}
+          className={'submit-btn' + (!isFormValid || loading ? ' submit-btn--disabled' : '')}
           onClick={onSendData}
-          disabled={!isFormValid}
+          disabled={!isFormValid || loading}
         >
-          Отправить заявку
+          {loading ? 'Отправка...' : 'Отправить заявку'}
         </Button>
       )}
 

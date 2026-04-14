@@ -1,4 +1,12 @@
-const tg = window.Telegram.WebApp;
+const tg = window.Telegram?.WebApp ?? {
+  ready: () => {},
+  close: () => {},
+  sendData: () => {},
+  onEvent: () => {},
+  offEvent: () => {},
+  MainButton: { setParams: () => {}, show: () => {}, hide: () => {}, isVisible: false },
+  initDataUnsafe: {},
+};
 
 export function useTelegram() {
 
