@@ -6,14 +6,14 @@ import './Header.css';
 
 const Header = () => {
   const {user, onClose} = useTelegram();
-  const {isVK, close: vkClose} = useVK();
+  const {isVK} = useVK();
 
-  const handleClose = isVK ? vkClose : onClose;
+  if (isVK) return null;
 
   return (
     <div className={'header'}>
-      <Button onClick={handleClose}>Закрыть</Button>
-      {!isVK && <span className={'username'}>{user?.username}</span>}
+      <Button onClick={onClose}>Закрыть</Button>
+      <span className={'username'}>{user?.username}</span>
     </div>
   );
 };
