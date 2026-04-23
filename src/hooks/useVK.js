@@ -30,20 +30,11 @@ export function useVK() {
   };
 
   const sendData = async (data) => {
-    if (!isVK) return false;
-    const peerId = await getUserId();
-    if (!peerId) throw new Error('Не удалось получить ID пользователя VK');
-
-    const response = await fetch('/api/webapp-data', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ peerId, ...data }),
+    if (!isVK || !VK_GROUP_ID) return false;
+    await vkBridge.send('VKWebAppSendPayload', {
+      group_id: VK_GROUP_ID,
+      payload: JSON.stringify(data),
     });
-
-    if (!response.ok) {
-      const err = await response.json().catch(() => ({}));
-      throw new Error(err.error || 'Ошибка сервера');
-    }
     return true;
   };
 
