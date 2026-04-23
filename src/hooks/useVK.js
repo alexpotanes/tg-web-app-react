@@ -31,10 +31,16 @@ export function useVK() {
 
   const sendData = async (data) => {
     if (!isVK || !VK_GROUP_ID) return false;
-    await vkBridge.send('VKWebAppSendPayload', {
-      group_id: VK_GROUP_ID,
-      payload: JSON.stringify(data),
-    });
+    try {
+      await vkBridge.send('VKWebAppSendPayload', {
+        group_id: VK_GROUP_ID,
+        payload: JSON.stringify(data),
+      });
+    } catch (e) {
+      console.error('[VKWebAppSendPayload error]', JSON.stringify(e));
+      const reason = e?.error_data?.error_reason || e?.error_type || e?.message || JSON.stringify(e);
+      throw new Error(reason);
+    }
     return true;
   };
 
