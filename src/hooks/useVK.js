@@ -34,7 +34,7 @@ export function useVK() {
     try {
       await vkBridge.send('VKWebAppSendPayload', {
         group_id: VK_GROUP_ID,
-        payload: JSON.stringify(data),
+        payload: data,
       });
     } catch (e) {
       console.error('[VKWebAppSendPayload error]', JSON.stringify(e));
