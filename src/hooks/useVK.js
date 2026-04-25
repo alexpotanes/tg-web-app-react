@@ -2,7 +2,7 @@ const vkBridge = window.vkBridge;
 const VK_GROUP_ID = parseInt(process.env.REACT_APP_VK_GROUP_ID || '0');
 
 export function useVK() {
-  const isVK = !!vkBridge;
+  const isVK = !!vkBridge && new URLSearchParams(window.location.search).has('vk_platform');
 
   // Запрашивает у пользователя разрешение получать сообщения от сообщества.
   // Нужно вызвать один раз при открытии Mini App.
