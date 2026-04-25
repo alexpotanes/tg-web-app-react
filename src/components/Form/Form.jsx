@@ -20,7 +20,7 @@ const Form = () => {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
-  const {tg, queryId, initData} = useTelegram();
+  const {tg, queryId} = useTelegram();
   const {sendData: vkSendData, isVK, close: vkClose} = useVK();
 
   const isFormValid = articles && photo && acceptResult && acceptQuantity;
@@ -32,29 +32,21 @@ const Form = () => {
       acceptResult, acceptQuantity,
     };
 
-    setLoading(true);
-    setError('');
-    try {
-      if (isVK) {
+    if (isVK) {
+      setLoading(true);
+      setError('');
+      try {
         await vkSendData(data);
-      } else {
-        const response = await fetch('/api/webapp-data', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ initData, ...data }),
-        });
-        if (!response.ok) {
-          const err = await response.json().catch(() => ({}));
-          throw new Error(err.error || 'Ошибка сервера');
-        }
+        setSent(true);
+      } catch (e) {
+        setError(e.message || 'Ошибка при отправке. Попробуйте ещё раз.');
+      } finally {
+        setLoading(false);
       }
-      setSent(true);
-    } catch (e) {
-      setError(e.message || 'Ошибка при отправке. Попробуйте ещё раз.');
-    } finally {
-      setLoading(false);
+    } else {
+      tg.sendData(JSON.stringify(data));
     }
-  }, [email, articles, photo, fashion, product, references, hair, race, productImg, queryId, initData, acceptResult, acceptQuantity, isVK, vkSendData]);
+  }, [email, articles, photo, fashion, product, references, hair, race, productImg, queryId, acceptResult, acceptQuantity, tg, isVK, vkSendData]);
 
   useEffect(() => {
     if (isVK) return;
@@ -259,13 +251,15 @@ const Form = () => {
 
       {error && <p className="form-error">{error}</p>}
 
-      <Button
-        className={'submit-btn' + (!isFormValid || loading ? ' submit-btn--disabled' : '')}
-        onClick={onSendData}
-        disabled={!isFormValid || loading}
-      >
-        {loading ? 'Отправка...' : 'Отправить заявку'}
-      </Button>
+      {isVK && (
+        <Button
+          className={'submit-btn' + (!isFormValid || loading ? ' submit-btn--disabled' : '')}
+          onClick={onSendData}
+          disabled={!isFormValid || loading}
+        >
+          {loading ? 'Отправка...' : 'Отправить заявку'}
+        </Button>
+      )}
 
       {!isFormValid && (
         <p className="form-hint">
