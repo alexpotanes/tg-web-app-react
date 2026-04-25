@@ -8,9 +8,9 @@ export default async function handler(req, res) {
     return res.status(500).json({ error: 'BOT_URL не настроен' });
   }
 
-  const { peerId } = req.body;
-  if (!peerId) {
-    return res.status(400).json({ error: 'peerId обязателен' });
+  const { peerId, initData } = req.body;
+  if (!peerId && !initData) {
+    return res.status(400).json({ error: 'peerId или initData обязателен' });
   }
 
   const botRes = await fetch(`${BOT_URL}/webapp-data`, {
