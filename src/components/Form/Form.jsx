@@ -70,7 +70,7 @@ const Form = () => {
       <div className="form form--success">
         <div className="success-icon">✓</div>
         <h3>Данные отправлены!</h3>
-        <p>Ожидайте ответа бота в VK.</p>
+        <p>Ожидайте ответа бота {isVK ? 'в VK' : 'в Telegram'}.</p>
         {isVK && (
           <Button onClick={vkClose}>Вернуться в VK</Button>
         )}

@@ -2,7 +2,7 @@ const vkBridge = window.vkBridge;
 const VK_GROUP_ID = parseInt(process.env.REACT_APP_VK_GROUP_ID || '0');
 
 export function useVK() {
-  const isVK = !!vkBridge;
+  const isVK = !!vkBridge && new URLSearchParams(window.location.search).has('vk_platform');
 
   const getGroupId = () => {
     if (VK_GROUP_ID) return VK_GROUP_ID;
@@ -23,20 +23,37 @@ export function useVK() {
     }
   };
 
+  const getUserId = async () => {
+    if (vkBridge) {
+      const data = await vkBridge.send('VKWebAppGetUserInfo');
+      return data.id;
+    }
+    // Fallback: VK Mini App передаёт vk_user_id в URL-параметрах
+    const params = new URLSearchParams(window.location.search);
+    return parseInt(params.get('vk_user_id') || '0');
+  };
+
   const close = () => {
     if (vkBridge) vkBridge.send('VKWebAppClose', { status: 'success' });
   };
 
-  // Отправляет данные формы напрямую в VK-бот через нативный механизм Mini App.
-  // Бот получает событие app_payload → создаёт ссылку на оплату ЮKassa.
+  // Отправляет данные формы через Vercel-прокси на VK бот-сервер.
+  // Бот-сервер: POST /webapp-data → handleWebAppData → createPaymentLink (ЮKassa).
   const sendData = async (data) => {
     if (!isVK) return false;
-    const groupId = getGroupId();
-    if (!groupId) throw new Error('ID сообщества VK не настроен (REACT_APP_VK_GROUP_ID)');
-    await vkBridge.send('VKWebAppSendPayload', {
-      group_id: groupId,
-      payload: JSON.stringify(data),
+    const peerId = await getUserId();
+    if (!peerId) throw new Error('Не удалось получить ID пользователя VK');
+
+    const response = await fetch('/api/webapp-data', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ peerId, ...data }),
     });
+
+    if (!response.ok) {
+      const err = await response.json().catch(() => ({}));
+      throw new Error(err.error || 'Ошибка сервера');
+    }
     return true;
   };
 
